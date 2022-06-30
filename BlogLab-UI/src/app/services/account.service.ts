@@ -15,34 +15,38 @@ export class AccountService {
 
   constructor(private http: HttpClient) {
     this.currentUserSubject$ = new BehaviorSubject<ApplicationUser>(
-      JSON.parse(localStorage.getItem('blogLab-currentUser'))
+      JSON.parse(localStorage.getItem('blogLab-currentUser')!)
     );
   }
 
   login(model: ApplicationUserLogin): Observable<ApplicationUser> {
-    return this.http.post(`${environment.webApi}/Account/login`, model).pipe(
-      map((user: ApplicationUser) => {
-        if (user) {
-          localStorage.setItem('blogLab-currentUser', JSON.stringify(user));
-          this.setCurrentUser(user);
-        }
+    return this.http
+      .post<ApplicationUser>(`${environment.webApi}/Account/login`, model)
+      .pipe(
+        map((user: ApplicationUser) => {
+          if (user) {
+            localStorage.setItem('blogLab-currentUser', JSON.stringify(user));
+            this.setCurrentUser(user);
+          }
 
-        return user;
-      })
-    );
+          return user;
+        })
+      );
   }
 
   register(model: ApplicationUserCreate): Observable<ApplicationUser> {
-    return this.http.post(`${environment.webApi}/Account/register`, model).pipe(
-      map((user: ApplicationUser) => {
-        if (user) {
-          localStorage.setItem('blogLab-currentUser', JSON.stringify(user));
-          this.setCurrentUser(user);
-        }
+    return this.http
+      .post<ApplicationUser>(`${environment.webApi}/Account/register`, model)
+      .pipe(
+        map((user: ApplicationUser) => {
+          if (user) {
+            localStorage.setItem('blogLab-currentUser', JSON.stringify(user));
+            this.setCurrentUser(user);
+          }
 
-        return user;
-      })
-    );
+          return user;
+        })
+      );
   }
 
   setCurrentUser(user: ApplicationUser) {
@@ -65,6 +69,5 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('blogLab-currentUser');
-    this.currentUserSubject$.next(null);
   }
 }
