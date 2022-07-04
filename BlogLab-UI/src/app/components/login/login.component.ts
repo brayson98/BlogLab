@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
           Validators.maxLength(20),
         ],
       ],
-      passoword: [
+      password: [
         null,
         [
           Validators.required,
@@ -42,20 +42,25 @@ export class LoginComponent implements OnInit {
       ],
     });
   }
+
   isTouched(field: string) {
     return this.loginForm.get(field)?.touched;
   }
+
   hasErrors(field: string) {
     return this.loginForm.get(field)?.errors;
   }
+
   hasError(field: string, error: string) {
     return !!this.loginForm.get(field)?.hasError(error);
   }
+
   onSubmit() {
     let applicationUserLogin: ApplicationUserLogin = new ApplicationUserLogin(
       this.loginForm.get('username')?.value,
       this.loginForm.get('password')?.value
     );
+
     this.accountService.login(applicationUserLogin).subscribe(() => {
       this.router.navigate(['/dashboard']);
     });

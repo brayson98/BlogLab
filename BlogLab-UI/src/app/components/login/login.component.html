@@ -3,6 +3,7 @@
     <div class="col-md-6 offset-md-3 mt-5">
       <h3 class="text-dark">Login</h3>
       <p class="text-dark">Get to your dashboard and start blogging</p>
+
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <input
@@ -15,12 +16,14 @@
             formControlName="username"
             placeholder="Username"
           />
+
           <div
             *ngIf="hasError('username', 'required')"
             class="invalid-feedback"
           >
-            Username required
+            Username is required
           </div>
+
           <div
             *ngIf="
               hasError('username', 'minlength') ||
@@ -28,9 +31,10 @@
             "
             class="invalid-feedback"
           >
-            Must be between 5-20 characters.
+            Must be between 5-20 characters
           </div>
         </div>
+
         <div class="form-group">
           <input
             type="password"
@@ -42,12 +46,14 @@
             formControlName="password"
             placeholder="Password"
           />
+
           <div
             *ngIf="hasError('password', 'required')"
             class="invalid-feedback"
           >
-            Password required
+            Password is required
           </div>
+
           <div
             *ngIf="
               hasError('password', 'minlength') ||
@@ -55,7 +61,7 @@
             "
             class="invalid-feedback"
           >
-            Must be between 10-50 characters.
+            Must be between 10-50 characters
           </div>
         </div>
 
