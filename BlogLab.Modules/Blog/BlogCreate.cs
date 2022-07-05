@@ -16,8 +16,8 @@ namespace BlogLab.Modules.Blog
         [MaxLength(50, ErrorMessage = "Has to be between 10 and 50 characters")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Content is Required")]
-        [MinLength(300, ErrorMessage = "Has to be between 300 and 3000 characters")]
-        [MaxLength(3000, ErrorMessage = "Has to be between 300 and 3000 characters")]
+        [MinLength(300, ErrorMessage = "Has to be between 300 and 5000 characters")]
+        [MaxLength(5000, ErrorMessage = "Has to be between 300 and 5000 characters")]
         public string Content { get; set; }
         public int? PhotoId { get; set; }
     }

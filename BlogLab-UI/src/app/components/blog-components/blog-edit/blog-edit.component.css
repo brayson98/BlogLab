@@ -1,0 +1,6 @@
+.preview-badge {
+  background-color: blue;
+}
+.preview-badge:hover {
+  opacity: 0.6;
+}

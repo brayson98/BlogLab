@@ -5,9 +5,10 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from '../services/account.service';
+import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -27,28 +28,30 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error) {
           switch (error.status) {
             case 400:
-              break;
               this.handle400Error(error);
+              break;
             case 401:
-              break;
               this.handle401Error(error);
-            case 500:
               break;
+            case 500:
               this.handle500Error(error);
+              break;
             default:
               this.handleUnexpectedError(error);
               break;
           }
         }
+
         return throwError(error);
       })
     );
   }
+
   handle400Error(error: any) {
     if (!!error.error && Array.isArray(error.error)) {
       let errorMessage = '';
       for (const key in error.error) {
-        if (error.error[key]) {
+        if (!!error.error[key]) {
           const errorElement = error.error[key];
           errorMessage = `${errorMessage}${errorElement.code} - ${errorElement.description}\n`;
         }
@@ -63,13 +66,13 @@ export class ErrorInterceptor implements HttpInterceptor {
       let errorMessage = '';
       for (const key in errorObject) {
         const errorElement = errorObject[key];
-        errorMessage = `${errorElement}\n`;
+        errorMessage = `${errorMessage}${errorElement}\n`;
       }
       this.toastr.error(errorMessage, error.statusCode);
       console.log(error.error);
     } else if (!!error.error) {
       let errorMessage =
-        typeof error.errors === 'string'
+        typeof error.error === 'string'
           ? error.error
           : 'There was a validation error.';
       this.toastr.error(errorMessage, error.statusCode);
@@ -89,13 +92,13 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   handle500Error(error: any) {
     this.toastr.error(
-      'Please contact the administrator. An error has happened in the server.'
+      'Please contact the administrator. An error happened in the server.'
     );
     console.log(error);
   }
 
   handleUnexpectedError(error: any) {
-    this.toastr.error('Something unexpected has occured.');
+    this.toastr.error('Something unexpected happened.');
     console.log(error);
   }
 }

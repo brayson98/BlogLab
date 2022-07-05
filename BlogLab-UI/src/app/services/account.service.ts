@@ -15,7 +15,7 @@ export class AccountService {
 
   constructor(private http: HttpClient) {
     this.currentUserSubject$ = new BehaviorSubject<ApplicationUser>(
-      JSON.parse(localStorage.getItem('blogLab-currentUser')!)
+      JSON.parse(localStorage.getItem('blogLab-currentUser') || '{}')
     );
   }
 
